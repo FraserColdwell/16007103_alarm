@@ -18,6 +18,7 @@ public class Controller {
         listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 model.update();
+               
             }
         };
         

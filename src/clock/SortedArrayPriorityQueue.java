@@ -67,7 +67,7 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         } else {
             /* Scan backwards looking for insertion point */
             int i = tailIndex;
-            while (i > 0 && ((PriorityItem<T>) storage[i - 1]).getPriority() < priority) {
+            while (i > 0 && ((PriorityItem<T>) storage[i - 1]).getPriority() > priority) {
                 storage[i] = storage[i - 1];
                 i = i - 1;
             }
@@ -94,14 +94,19 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
 
     @Override
     public String toString() {
-        String result = "[";
+        String result = "";
         for (int i = 0; i <= tailIndex; i++) {
             if (i > 0) {
                 result = result + ", ";
             }
             result = result + storage[i];
         }
-        result = result + "]";
         return result;
+    }
+    
+    //returns the priority the the view class
+    public int returnPriority()
+    {
+        return ((PriorityItem<T>) storage[0]).getPriority();
     }
 }
