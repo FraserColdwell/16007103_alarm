@@ -1,5 +1,9 @@
 package clock;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -61,6 +65,7 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         }
     }
 
+    //adds a new item using the datetime as the item and the epochtime as the priority
     @Override
     public void add(T item, int priority) throws QueueOverflowException {
         tailIndex = tailIndex + 1;
@@ -79,6 +84,8 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         }
     }
 
+    
+    //removes the item the user selects
     @Override
     public void remove(int epochtime) throws QueueUnderflowException {
         if (isEmpty()) {
@@ -102,6 +109,7 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         return tailIndex < 0;
     }
     
+    //find the location of the priority we want to remove
     public int highest_priority(int epochtime)
     {      
         int i =0;
@@ -140,16 +148,19 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         return result;
     }
     
+    //returns the length of the array to the viewclass
     public int count()
     {
         return tailIndex;
     }
+    
     //returns the priority the the view class
     public int returnPriority()
     {
         return ((PriorityItem<T>) storage[0]).getPriority();
     }
     
+    //returns an array containing all the priorities to the view class
     public int[] returnPriorityLoop()
     {
         int numberofalarms = tailIndex + 1;
@@ -162,4 +173,12 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         return priorities;
     }
     
-}
+    
+    //returns the tailIndex to the viewclass
+    public int tailIndex()
+    {
+        return tailIndex;
+    }
+    
+    }
+    

@@ -20,7 +20,7 @@ public class alarm  {
 
     
   
-    
+    //converts datetime into epochtime and returns it to the view class
     public int epoch (String hour, String min, String day, String month) throws ParseException
     {
         String year = "2019";
@@ -35,24 +35,10 @@ public class alarm  {
     ;
         
     }
-    public int addDay(String day, int epochtime, String minute, String hour, String month) throws ParseException {
-        long currentepoch = System.currentTimeMillis()/1000;
-        String year = "2019";
-        String newDay =day;
-        
-        if (currentepoch > epochtime)
-        {
-            
-            int dayint = Integer.parseInt(day) + 1;
-            newDay = Integer.toString(dayint);
-            int updatedEpoch = epoch(hour, minute, newDay, month);
-            
-            return updatedEpoch;
-        }
-        return epochtime;
     
-    }
     
+    
+    //checks whether the alarm the user submitted has already past
     public boolean checkDate(String day, int epochtime, String minute, String hour, String month) throws ParseException {
         boolean past = false;
         long currentepoch = System.currentTimeMillis()/1000;
@@ -67,6 +53,7 @@ public class alarm  {
     
     }
     
+    //converts epochtime to datetime
     public String epochtodatetime(int epochtime){
        
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -79,6 +66,7 @@ public class alarm  {
         return formatted;
     }
     
+    //splits the datetime that epochtodatetime() generates into seperate variables
     public String[] epochsplit(String formatted) {
              
         String[] split1 = formatted.split("-");
@@ -101,47 +89,8 @@ public class alarm  {
     
     }
     
-    public void write(String hour, String minute, String day, String month) {
-        
-            
-    
-            String eventBegin = "BEGIN:VEVENT \n";
-            String eventEnd =   "END:VEVENT";
-            String name = "alarms";
-            StringBuilder builder = new StringBuilder();
-            builder.append(name);
-            builder.append(".ics");
 
-            
-            
-            
-            
-            String testExample = "nDTSTART:"+"2019"+month+day+"T170000Z"+"\nDTEND:"+"2019"+month+day+"T170000Z\n";
-
-            try {
-                
-            File file = new File(builder.toString());
-
-                // if file doesnt exists, then create it
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-
-                FileWriter fw = new FileWriter(file.getAbsoluteFile());
-                BufferedWriter bw = new BufferedWriter(fw);
-                
-                bw.write(eventBegin);
-                bw.write(testExample);
-                bw.write(eventEnd);
-                
-
-                bw.close();
-
-                System.out.println("Done");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+     
     
     
    
