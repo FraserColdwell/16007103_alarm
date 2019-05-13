@@ -1,5 +1,7 @@
 package clock;
 
+import java.util.Arrays;
+
 
 
 /**
@@ -48,6 +50,8 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         tailIndex = -1;
     }
 
+    
+    
     @Override
     public T head() throws QueueUnderflowException {
         if (isEmpty()) {
@@ -76,11 +80,17 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
     }
 
     @Override
-    public void remove() throws QueueUnderflowException {
+    public void remove(int epochtime) throws QueueUnderflowException {
         if (isEmpty()) {
             throw new QueueUnderflowException();
         } else {
-            for (int i = 0; i < tailIndex; i++) {
+            
+            int highest_pri = highest_priority(epochtime);
+            System.out.println("Highest Pri");
+            System.out.println(highest_pri);
+            System.out.println("Storage Length");
+            System.out.println(storage.length - 1);
+            for (int i = highest_pri; i < storage.length - 1; i++) {
                 storage[i] = storage[i + 1];
             }
             tailIndex = tailIndex - 1;
@@ -90,6 +100,32 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
     @Override
     public boolean isEmpty() {
         return tailIndex < 0;
+    }
+    
+    public int highest_priority(int epochtime)
+    {      
+        int i =0;
+        int Pos=0;
+     
+        
+                    System.out.println("GetPriority");
+                   System.out.println(((PriorityItem<T>) storage[i]).getPriority());
+                   System.out.println("epochtime");
+                   System.out.println(epochtime);
+           while(i <= tailIndex){
+               System.out.println("GetPriority");
+                   System.out.println(((PriorityItem<T>) storage[i]).getPriority());
+                   System.out.println("epochtime");
+                   System.out.println(epochtime);
+               if(((PriorityItem<T>) storage[i]).getPriority() == epochtime){
+                   
+                   Pos = i;
+                
+               }
+               
+               i++;
+            }
+            return Pos;
     }
 
     @Override
@@ -104,9 +140,26 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
         return result;
     }
     
+    public int count()
+    {
+        return tailIndex;
+    }
     //returns the priority the the view class
     public int returnPriority()
     {
         return ((PriorityItem<T>) storage[0]).getPriority();
     }
+    
+    public int[] returnPriorityLoop()
+    {
+        int numberofalarms = tailIndex + 1;
+        int[] priorities = new int[numberofalarms];
+        for (int i=0; i<=tailIndex;i++)
+        {
+            int priority = ((PriorityItem<T>) storage[i]).getPriority();
+            priorities[i] = priority;
+        }
+        return priorities;
+    }
+    
 }
