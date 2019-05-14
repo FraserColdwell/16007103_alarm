@@ -35,6 +35,8 @@ import java.io.FileWriter;
 public class View implements Observer {
     
     ClockPanel panel;
+    JLabel timebetweenlbl = new JLabel();
+    
     public int priority;
     
     //creates instance of SortedArrayPriorityQueue
@@ -46,7 +48,7 @@ public class View implements Observer {
     
     
     
-    public View(Model model) {
+    public View(Model model) throws QueueUnderflowException {
         JFrame frame = new JFrame();
         
         panel = new ClockPanel(model);
@@ -56,13 +58,8 @@ public class View implements Observer {
         
         // Start of border layout code
         
-        // I've just put a single button in each of the border positions:
-        // PAGE_START (i.e. top), PAGE_END (bottom), LINE_START (left) and
-        // LINE_END (right). You can omit any of these, or replace the button
-        // with something else like a label or a menu bar. Or maybe you can
-        // figure out how to pack more than one thing into one of those
-        // positions. This is the very simplest border layout possible, just
-        // to help you get started.
+        
+        
         
         Container pane = frame.getContentPane();
         
@@ -70,7 +67,7 @@ public class View implements Observer {
         JButton setalarm = new JButton("Set Alarm");
         pane.add(setalarm, BorderLayout.PAGE_START);
         
-        panel.setPreferredSize(new Dimension(200, 300));
+        panel.setPreferredSize(new Dimension(300, 350));
         pane.add(panel, BorderLayout.CENTER);
         
         //event listener for set alarm button that opens up a jframe and allows users t enter the alarm details
@@ -167,10 +164,11 @@ public class View implements Observer {
                             {
                                 //adds alarm to the queue
                                 q.add(time, epochtime);
-                            
-                            
+                                priority = q.returnPriority();
                                
                                 
+                              
+
                             //alerts user alarm has successfully been set
                             JDialog t = new JDialog(frame, "Alarm Set For : " + time + " On: " + day + "," + month, true);
                             t.setLocationRelativeTo(frame);
@@ -591,29 +589,52 @@ public class View implements Observer {
                             });
         
         
+       
+       
         frame.pack();
         frame.setVisible(true);
         
-        
+       
     }
     
-    @Override
+    
+   @Override
     public void update(Observable o, Object arg) {
         panel.repaint();
         long currentepoch = System.currentTimeMillis()/1000;
         
-        //checks if current time = an alarm time
+        timebetweenlbl.setVisible(false);
+        long timebetween = priority - currentepoch;
+        
+        System.out.println("between" + timebetween);
+        
+        if (timebetween < 0)
+        {
+            
+            timebetweenlbl.setText("No Upcoming Alarms");
+            timebetweenlbl.setBounds(40,10, 300, 20);
+            panel.add(timebetweenlbl);
+            timebetweenlbl.setVisible(true);
+            
+        }
+        else
+        {
+        timebetweenlbl.setText("Next alarm in :" + timebetween + " seconds");
+  
+        timebetweenlbl.setBounds(40,10, 300, 20);
+        panel.add(timebetweenlbl);
+        timebetweenlbl.setVisible(true);
+        }
         if (currentepoch == priority)
             
         {
-            //alerts user that an alarm is going off
             final JFrame alarmtriggered = new JFrame();
             JDialog d = new JDialog(alarmtriggered, "Wakey Wakey", true);
             d.setBounds(100,20, 300, 20);
             d.setVisible(true);
             
             try {
-                //removes the alarm from the queue
+              
                 q.remove(priority);
                 
             } catch (QueueUnderflowException ex) {

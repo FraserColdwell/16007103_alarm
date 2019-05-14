@@ -58,7 +58,7 @@ import java.util.Arrays;
                //creates an instance of filewrites passing in parameters fnew(filename) and true which means it will append and not overwrite
                 FileWriter ics = new FileWriter(fnew,true);
                 
-                 //writes the details to the ics file
+                //writes the details to the ics file
                 ics.write(eventBegin);
                 ics.write(testExample);
                 ics.write(eventEnd);
@@ -115,46 +115,45 @@ import java.util.Arrays;
             
             //creates a string array that is the length = however many lines the file has(Because that gives you the number of alarms)
             int[] epochtime = new int[numberoflines/5];
-           
+            System.out.println(Arrays.toString(epochtime));
+            
+            int index =0;
+            System.out.println("before" + index);
+            
             //for loop which goes through each line of the file and inserting the data into the textData array
             for (i=0; i< numberoflines; i++)
             {
                 textData[i] = br.readLine();
                 System.out.println(textData[i]);
                 
-            }
-            
-                
-                
-                int datepos = 3;
-                int index =0;
-                
-                //loop which cycles through each alarm
-                while (index<numberoflines/5)
-                {
-                    //sets the month variable using data from the ics file
-                    String month = textData[datepos].charAt(12) + "" + textData[datepos].charAt(13);
-                 
-                    //sets the day variable using data from the ics file    
-                    String day = textData[datepos].charAt(14) + "" + textData[datepos].charAt(15);
-                  
-                    //sets the hour variable using data from the ics file
-                    String hour = textData[datepos].charAt(17) + "" + textData[datepos].charAt(18);
+                if (textData[i].contains("DTSTART")){
+                    int line = i;
+                    System.out.println("line :" + line);
+                    System.out.println("Index :" + index);
+                    String month = textData[line].charAt(12) + "" + textData[line].charAt(13);
                     
+                    //sets the day variable using data from the ics file    
+                    String day = textData[line].charAt(14) + "" + textData[line].charAt(15);
+         
+                    //sets the hour variable using data from the ics file
+                    String hour = textData[line].charAt(17) + "" + textData[line].charAt(18);
+         
                     //sets the min variable using data from the ics file
-                    String min = textData[datepos].charAt(19) + "" + textData[datepos].charAt(20);
-     
-                    //contacinates the values together into a time variable
-                    String time = hour+ ":" +  min + ":" + day + "" + month;
-                 
+                    String min = textData[line].charAt(19) + "" + textData[line].charAt(20);
+              
                     //sets the epochtime[currentindex] to the epochtime returned from the epoch method
                     epochtime[index] = a.epoch(hour, min, day, month);
                     
-                    index++;
-                    datepos = datepos + 5;
+                    index = index +1;
                     
                     
                 }
+                
+                
+            }
+            
+                
+
              
             return epochtime;
             

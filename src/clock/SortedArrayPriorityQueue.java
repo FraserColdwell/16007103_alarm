@@ -60,10 +60,24 @@ public class SortedArrayPriorityQueue<T> implements PriorityQueue<T> {
     public T head() throws QueueUnderflowException {
         if (isEmpty()) {
             throw new QueueUnderflowException();
+            
         } else {
             return ((PriorityItem<T>) storage[0]).getItem();
         }
     }
+    
+    public Object nextalarm()
+            {
+                if (((PriorityItem<T>) storage[tailIndex]).getItem() != null)
+                {
+                Object nextalarm = "Upcoming Alarm: " + ((PriorityItem<T>) storage[0]).getItem();
+                return nextalarm;
+                }
+                else{
+                    Object nextalarm = "No Upcoming Alarms";
+                    return nextalarm;
+                }
+            }
 
     //adds a new item using the datetime as the item and the epochtime as the priority
     @Override

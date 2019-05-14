@@ -33,6 +33,7 @@ public class ClockPanel extends JPanel {
         
         gg.setStroke(new BasicStroke(1));
         
+        
         // gg.draw(new Ellipse2D.Double(-1, -1, 2, 2));
         
         double radius = 0;
