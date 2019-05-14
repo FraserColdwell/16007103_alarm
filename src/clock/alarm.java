@@ -57,7 +57,7 @@ public class alarm  {
     public String epochtodatetime(int epochtime){
        
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        format.setTimeZone(TimeZone.getTimeZone("GMT+1"));
         long longepochtime = epochtime;
         
         String formatted = format.format(longepochtime*1000);
